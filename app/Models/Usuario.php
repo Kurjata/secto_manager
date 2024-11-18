@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Usuario extends Model
+class Usuario extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
-    protected $fillable = ['nome', 'email', 'senha'];
+    protected $fillable = ['nome', 'email', 'password'];
+
+    protected $hidden = ['password', 'remember_token'];
 
     public function chamados()
     {
