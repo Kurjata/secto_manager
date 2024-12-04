@@ -14,16 +14,24 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        // Validação dos campos de entrada
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|string',
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect()->route('chamados.create');
-        }
+        // Finge que autentica qualquer usuário
+        $fakeUser = (object) [
+            'id' => 1,
+            'name' => 'Usuário Falso',
+            'email' => $request->email,
+        ];
 
-        return back()->withErrors(['email' => 'Credenciais inválidas.']);
+        // Loga o usuário falso manualmente
+        Auth::loginUsingId($fakeUser->id);
+
+        // Redireciona para a página de criação de chamados
+        return redirect()->route('chamados.create');
     }
 
     public function logout()

@@ -10,12 +10,22 @@ class Usuario extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $fillable = ['nome', 'email', 'password'];
+    // Campos que podem ser atribuídos em massa
+    protected $fillable = ['nome', 'email', 'senha']; // Altere 'password' para 'senha'
 
-    protected $hidden = ['password', 'remember_token'];
+    // Campos ocultos para serialização
+    protected $hidden = ['senha', 'remember_token']; // Altere 'password' para 'senha'
 
+    // Relacionamento com a tabela Chamados
     public function chamados()
     {
         return $this->hasMany(Chamado::class);
     }
+
+    // Informar ao Laravel que o campo de senha é 'senha'
+    public function getAuthPassword()
+    {
+        return $this->senha; // Laravel usará a coluna 'senha' para autenticação
+    }
 }
+
